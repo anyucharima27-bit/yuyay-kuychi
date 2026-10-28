@@ -1,0 +1,162 @@
+/* ✏️ PERSONALIZA: colores */
+:root {
+  --crema: #fbf5e9;
+  --lavanda: #c9b8e3;
+  --azul: #b8d0e6;
+  --salvia: #a9c2a4;
+  --rosa: #e3b5c0;
+  --tinta: #4b4258;      /* texto principal (buen contraste) */
+  --tinta-suave: #6b6178;
+  --papel: #fffaf0;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--tinta);
+  font-family: "Lora", Georgia, serif;
+  line-height: 1.7;
+  background:
+    radial-gradient(circle at 15% 10%, var(--lavanda) 0, transparent 40%),
+    radial-gradient(circle at 90% 20%, var(--azul) 0, transparent 38%),
+    radial-gradient(circle at 80% 95%, var(--rosa) 0, transparent 40%),
+    var(--crema);
+  overflow-x: hidden;
+}
+/* El fondo fijo solo en escritorio: en iPhone/Android da saltos o no se ve */
+@media (hover: hover) and (pointer: fine) {
+  body { background-attachment: fixed; }
+}
+
+main { position: relative; z-index: 1; }
+
+.pantalla {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
+  text-align: center;
+}
+
+/* Portada */
+.sobre { width: 110px; margin-bottom: .5rem; animation: flotar 5s ease-in-out infinite; }
+.pequeno { letter-spacing: .2em; text-transform: uppercase; font-size: .8rem; color: var(--tinta-suave); margin: 0; }
+h1 {
+  font-family: "Great Vibes", "Brush Script MT", cursive;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 12vw, 5rem);
+  line-height: 1.1;
+  margin: .3rem 0 .6rem;
+  color: #7c5f9e;
+}
+.invitacion { max-width: 24rem; margin: 0 0 1.8rem; font-style: italic; }
+#portada.salida { opacity: 0; transform: translateY(-14px); transition: opacity .5s, transform .5s; }
+
+/* Botones */
+.boton {
+  font: inherit;
+  font-size: 1rem;
+  padding: .8rem 1.6rem;
+  min-height: 44px;
+  border: 1.5px solid #7c5f9e;
+  border-radius: 999px;
+  background: #7c5f9e;
+  color: #fff;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+@media (hover: hover) {
+  .boton:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(124, 95, 158, .3); }
+}
+.boton:active { transform: scale(.97); }
+.boton:focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; }
+.boton.secundario { background: transparent; color: #5d4480; }
+.boton:disabled { opacity: .7; cursor: default; transform: none; box-shadow: none; }
+
+/* Carta */
+.carta {
+  position: relative;
+  width: min(100%, 34rem);
+  padding: 2.4rem 1.6rem 2rem;
+  text-align: left;
+  background: var(--papel);
+  border: 1px solid var(--lavanda);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(75, 66, 88, .15);
+  animation: abrir 1s ease-out both;
+}
+.carta::before {            /* segundo borde delicado */
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed var(--rosa);
+  border-radius: 9px;
+  pointer-events: none;
+}
+.carta h2 {
+  font-family: "Great Vibes", "Brush Script MT", cursive;
+  font-weight: 400;
+  font-size: 2.2rem;
+  margin: 0 0 1rem;
+  color: #7c5f9e;
+  outline: none;
+}
+.carta p { margin: 0 0 1rem; }
+.carta > p, .carta > h2 { opacity: 0; animation: aparecer .8s ease-out forwards; }
+.carta > h2 { animation-delay: .6s; }
+.carta > p:nth-of-type(1) { animation-delay: .9s; }
+.carta > p:nth-of-type(2) { animation-delay: 1.3s; }
+.carta > p:nth-of-type(3) { animation-delay: 1.7s; }
+.carta > p:nth-of-type(4) { animation-delay: 2.1s; }
+.carta > .firma { animation-delay: 2.5s; }
+.firma { text-align: right; font-style: italic; margin-top: 1.5rem; }
+.firma span { font-family: "Great Vibes", cursive; font-style: normal; font-size: 1.7rem; color: #7c5f9e; }
+
+.adorno { position: absolute; width: 38px; height: 38px; }
+.a1 { top: -14px; left: -10px; color: var(--rosa); transform: rotate(-15deg); }
+.a2 { bottom: -14px; right: -10px; color: var(--salvia); transform: rotate(20deg); }
+
+.acciones { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.5rem; position: relative; z-index: 1; }
+
+.sorpresa { margin-top: 1.5rem; text-align: center; animation: aparecer 1s ease-out both; }
+.sorpresa svg { width: 46px; height: 46px; color: var(--rosa); animation: girar 12s linear infinite; }
+.sorpresa p { font-family: "Great Vibes", cursive; font-size: 1.8rem; color: #7c5f9e; margin: 0; }
+
+.marca { position: relative; z-index: 1; text-align: center; padding: 0 1rem 1.5rem; font-size: .8rem; color: var(--tinta-suave); }
+
+/* Corazones, pétalos y destellos */
+#flotantes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.flotante { position: absolute; bottom: -40px; opacity: 0; animation: subir linear infinite; }
+.petalo { position: fixed; z-index: 5; pointer-events: none; animation: caer ease-in forwards; }
+
+/* Animaciones */
+@keyframes flotar { 50% { transform: translateY(-8px); } }
+@keyframes abrir { from { opacity: 0; transform: perspective(700px) rotateX(-18deg) translateY(30px) scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes subir {
+  0% { opacity: 0; transform: translateY(0) rotate(0); }
+  15% { opacity: .55; }
+  100% { opacity: 0; transform: translateY(-110vh) rotate(60deg); }
+}
+@keyframes caer {
+  0% { opacity: 1; transform: translateY(0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--dx), 70vh) rotate(240deg); }
+}
+
+/* Respeta "reducir movimiento" del sistema */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .carta > p, .carta > h2 { opacity: 1; }
+  #flotantes, .petalo { display: none; }
+}
