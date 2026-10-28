@@ -48,14 +48,14 @@ $("btnSorpresa").addEventListener("click", () => {
     const p = document.createElement("span");
     p.className = "petalo";
     p.textContent = i % 3 === 0 ? "♥" : "❀";
-    p.style.left = Math.random() * 100 + "vw";
+    p.style.left = Math.random() * 100 + "%";
     p.style.top = "-20px";
     p.style.color = colores[i % colores.length];
     p.style.fontSize = 16 + Math.random() * 14 + "px";
     p.style.setProperty("--dx", (Math.random() * 120 - 60) + "px");
     p.style.animationDuration = 3 + Math.random() * 2.5 + "s";
     p.style.animationDelay = Math.random() * 0.8 + "s";
-    document.body.appendChild(p);
+    $("lluvia").appendChild(p);
     setTimeout(() => p.remove(), 7000);
   }
 });

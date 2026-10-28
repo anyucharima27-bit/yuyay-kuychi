@@ -13,6 +13,8 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 
+/* Nada se sale por los lados (evita que la página se mueva de costado en el celular) */
+html, body { overflow-x: hidden; overflow-x: clip; max-width: 100%; }
 html { -webkit-text-size-adjust: 100%; }
 
 body {
@@ -28,7 +30,6 @@ body {
     radial-gradient(circle at 90% 20%, var(--azul) 0, transparent 38%),
     radial-gradient(circle at 80% 95%, var(--rosa) 0, transparent 40%),
     var(--crema);
-  overflow-x: hidden;
 }
 /* El fondo fijo solo en escritorio: en iPhone/Android da saltos o no se ve */
 @media (hover: hover) and (pointer: fine) {
@@ -135,9 +136,10 @@ h1 {
 .marca { position: relative; z-index: 1; text-align: center; padding: 0 1rem 1.5rem; font-size: .8rem; color: var(--tinta-suave); }
 
 /* Corazones, pétalos y destellos */
-#flotantes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+#flotantes, #lluvia { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+#lluvia { z-index: 5; }
 .flotante { position: absolute; bottom: -40px; opacity: 0; animation: subir linear infinite; }
-.petalo { position: fixed; z-index: 5; pointer-events: none; animation: caer ease-in forwards; }
+.petalo { position: absolute; animation: caer ease-in forwards; }
 
 /* Animaciones */
 @keyframes flotar { 50% { transform: translateY(-8px); } }
@@ -158,5 +160,5 @@ h1 {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .carta > p, .carta > h2 { opacity: 1; }
-  #flotantes, .petalo { display: none; }
+  #flotantes, #lluvia, .petalo { display: none; }
 }
