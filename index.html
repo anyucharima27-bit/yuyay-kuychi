@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital@0;1&display=swap" rel="stylesheet">
   <!-- Si cambias style.css o script.js, sube el número de ?v= para que los celulares no usen la versión vieja -->
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -78,10 +78,14 @@
           <!-- Reproductor de la canción favorita (el video y la canción se eligen en script.js) -->
           <div id="reproductor" class="reproductor">
             <p class="dedicatoria">Tu canción favorita ♪</p>
+            <!-- El video de YouTube queda cargado pero invisible: solo se ve la música -->
             <div class="video"><div id="yt"></div></div>
 
+            <div class="ondas" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+
             <div class="tema">
-              <span class="ondas" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
               <span class="datos">
                 <span id="cancion" class="cancion">Ama kiriwaychu mamita</span>
                 <span id="artista" class="artista">William Luna</span>
@@ -107,6 +111,6 @@
 
   <footer class="marca">Hecho con cariño por Yuyay K'uychi</footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

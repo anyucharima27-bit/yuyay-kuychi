@@ -153,41 +153,63 @@ h1 {
   text-transform: uppercase;
   color: var(--tinta-suave);
 }
+/* Video invisible (1 px): suena, pero no se ve */
 .video {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  max-width: 100%;
-  border-radius: 10px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  background: var(--crema);
+  opacity: 0;
+  pointer-events: none;
 }
-.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video iframe { width: 1px; height: 1px; border: 0; }
+.reproductor { position: relative; }
 
 .tema { display: flex; align-items: center; gap: .8rem; margin-top: .9rem; }
 .datos { display: flex; flex-direction: column; min-width: 0; flex: 1; line-height: 1.3; }
 .cancion { font-weight: 600; color: var(--tinta); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .artista { font-size: .85rem; color: var(--tinta-suave); }
 
-/* Ondas de sonido: se mueven solo mientras suena */
-.ondas { display: flex; align-items: flex-end; gap: 3px; width: 26px; height: 24px; flex: none; }
-.ondas i {
-  flex: 1;
-  height: 100%;
-  border-radius: 2px;
-  background: #7c5f9e;
-  transform-origin: bottom;
-  transform: scaleY(.25);
-  animation: onda 1s ease-in-out infinite;
-  animation-play-state: paused;
+/* Ondas de sonido grandes: se mueven solo mientras suena */
+.ondas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 64px;
+  margin: .4rem 0 .2rem;
 }
-.ondas i:nth-child(2) { animation-delay: -.6s; background: var(--rosa); }
-.ondas i:nth-child(3) { animation-delay: -.3s; }
-.ondas i:nth-child(4) { animation-delay: -.8s; background: var(--lavanda); }
-.ondas i:nth-child(5) { animation-delay: -.45s; }
+.ondas i {
+  width: 6px;
+  height: 100%;
+  border-radius: 99px;
+  background: #7c5f9e;
+  transform: scaleY(.18);
+  animation: onda 1.1s ease-in-out infinite;
+  animation-play-state: paused;
+  transition: transform .4s;
+}
+/* Alturas y ritmos distintos para que parezca una onda real */
+.ondas i:nth-child(3n+1) { background: var(--rosa); }
+.ondas i:nth-child(3n+2) { background: #7c5f9e; }
+.ondas i:nth-child(3n)   { background: var(--lavanda); }
+.ondas i:nth-child(1)  { animation-delay: -.9s;  --alto: .35; }
+.ondas i:nth-child(2)  { animation-delay: -.2s;  --alto: .55; }
+.ondas i:nth-child(3)  { animation-delay: -.7s;  --alto: .7; }
+.ondas i:nth-child(4)  { animation-delay: -.4s;  --alto: .9; }
+.ondas i:nth-child(5)  { animation-delay: -1s;   --alto: .75; }
+.ondas i:nth-child(6)  { animation-delay: -.15s; --alto: 1; }
+.ondas i:nth-child(7)  { animation-delay: -.55s; --alto: .85; }
+.ondas i:nth-child(8)  { animation-delay: -.3s;  --alto: 1; }
+.ondas i:nth-child(9)  { animation-delay: -.8s;  --alto: .8; }
+.ondas i:nth-child(10) { animation-delay: -.1s;  --alto: .9; }
+.ondas i:nth-child(11) { animation-delay: -.6s;  --alto: .65; }
+.ondas i:nth-child(12) { animation-delay: -.35s; --alto: .5; }
+.ondas i:nth-child(13) { animation-delay: -.75s; --alto: .35; }
 .sonando .ondas i { animation-play-state: running; }
 @keyframes onda {
-  0%, 100% { transform: scaleY(.25); }
-  50% { transform: scaleY(1); }
+  0%, 100% { transform: scaleY(.18); }
+  50% { transform: scaleY(var(--alto, 1)); }
 }
 
 .btn-play {
