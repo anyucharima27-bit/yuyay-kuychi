@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital@0;1&display=swap" rel="stylesheet">
   <!-- Si cambias style.css o script.js, sube el número de ?v= para que los celulares no usen la versión vieja -->
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -68,14 +68,38 @@
 
         <div class="acciones">
           <button id="btnSorpresa" class="boton" type="button" aria-expanded="false" aria-controls="sorpresa">Descubrir una sorpresa</button>
-          <!-- Se muestra solo si existe assets/musica.mp3 -->
-          <button id="btnMusica" class="boton secundario" type="button" aria-pressed="false" hidden>♪ Reproducir música</button>
         </div>
 
         <!-- ✏️ PERSONALIZA: mensaje final de la sorpresa -->
         <div id="sorpresa" class="sorpresa" hidden>
           <svg aria-hidden="true"><use href="#flor"/></svg>
           <p>Que este año florezca en cosas lindas para ti.</p>
+
+          <!-- Reproductor de la canción favorita (el video y la canción se eligen en script.js) -->
+          <div id="reproductor" class="reproductor">
+            <p class="dedicatoria">Tu canción favorita ♪</p>
+            <div class="video"><div id="yt"></div></div>
+
+            <div class="tema">
+              <span class="ondas" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="datos">
+                <span id="cancion" class="cancion">Ama kiriwaychu mamita</span>
+                <span id="artista" class="artista">William Luna</span>
+              </span>
+              <button id="btnPlay" class="btn-play" type="button" aria-label="Reproducir" disabled>
+                <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+                <svg class="ico-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+              </button>
+            </div>
+
+            <div class="progreso">
+              <span id="tActual" class="tiempo">0:00</span>
+              <input id="barra" class="barra" type="range" min="0" max="100" step="0.1" value="0" aria-label="Avance de la canción" disabled>
+              <span id="tTotal" class="tiempo">0:00</span>
+            </div>
+
+            <p id="avisoMusica" class="aviso" hidden></p>
+          </div>
         </div>
       </article>
     </section>
@@ -83,6 +107,6 @@
 
   <footer class="marca">Hecho con cariño por Yuyay K'uychi</footer>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>

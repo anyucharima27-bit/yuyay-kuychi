@@ -130,8 +130,119 @@ h1 {
 .acciones { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.5rem; position: relative; z-index: 1; }
 
 .sorpresa { margin-top: 1.5rem; text-align: center; animation: aparecer 1s ease-out both; }
-.sorpresa svg { width: 46px; height: 46px; color: var(--rosa); animation: girar 12s linear infinite; }
-.sorpresa p { font-family: "Great Vibes", cursive; font-size: 1.8rem; color: #7c5f9e; margin: 0; }
+.sorpresa > svg { width: 46px; height: 46px; color: var(--rosa); animation: girar 12s linear infinite; }
+.sorpresa > p { font-family: "Great Vibes", cursive; font-size: 1.8rem; color: #7c5f9e; margin: 0; }
+
+/* Reproductor de la canción */
+.reproductor {
+  margin: 1.4rem auto 0;
+  max-width: 22rem;
+  padding: 1rem;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--lavanda);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(124, 95, 158, .14);
+}
+.reproductor .dedicatoria {
+  margin: 0 0 .6rem;
+  text-align: center;
+  font-family: "Lora", Georgia, serif;
+  font-size: .8rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+.video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--crema);
+}
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.tema { display: flex; align-items: center; gap: .8rem; margin-top: .9rem; }
+.datos { display: flex; flex-direction: column; min-width: 0; flex: 1; line-height: 1.3; }
+.cancion { font-weight: 600; color: var(--tinta); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.artista { font-size: .85rem; color: var(--tinta-suave); }
+
+/* Ondas de sonido: se mueven solo mientras suena */
+.ondas { display: flex; align-items: flex-end; gap: 3px; width: 26px; height: 24px; flex: none; }
+.ondas i {
+  flex: 1;
+  height: 100%;
+  border-radius: 2px;
+  background: #7c5f9e;
+  transform-origin: bottom;
+  transform: scaleY(.25);
+  animation: onda 1s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.ondas i:nth-child(2) { animation-delay: -.6s; background: var(--rosa); }
+.ondas i:nth-child(3) { animation-delay: -.3s; }
+.ondas i:nth-child(4) { animation-delay: -.8s; background: var(--lavanda); }
+.ondas i:nth-child(5) { animation-delay: -.45s; }
+.sonando .ondas i { animation-play-state: running; }
+@keyframes onda {
+  0%, 100% { transform: scaleY(.25); }
+  50% { transform: scaleY(1); }
+}
+
+.btn-play {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: #7c5f9e;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(124, 95, 158, .35);
+}
+.btn-play svg { width: 22px; height: 22px; fill: currentColor; }
+.btn-play .ico-pausa, .sonando .btn-play .ico-play { display: none; }
+.sonando .btn-play .ico-pausa { display: block; }
+.btn-play:disabled { opacity: .5; cursor: default; }
+.btn-play:focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; }
+
+/* Barra de tiempo */
+.progreso { display: flex; align-items: center; gap: .6rem; margin-top: .8rem; }
+.tiempo { font-size: .78rem; color: var(--tinta-suave); font-variant-numeric: tabular-nums; min-width: 2.4em; }
+.tiempo:last-child { text-align: right; }
+.barra {
+  --p: 0%;
+  flex: 1;
+  min-width: 0;
+  height: 6px;
+  margin: 0;
+  border-radius: 99px;
+  background: linear-gradient(to right, #7c5f9e var(--p), #ebe4f3 var(--p));
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.barra::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #7c5f9e;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(75, 66, 88, .35);
+}
+.barra::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #7c5f9e;
+  border: 2px solid #fff;
+}
+.barra:disabled { cursor: default; }
+.barra:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
+
+.reproductor .aviso { margin: .7rem 0 0; font-size: .85rem; font-family: "Lora", Georgia, serif; color: #8a4a5c; text-align: center; }
 
 .marca { position: relative; z-index: 1; text-align: center; padding: 0 1rem 1.5rem; font-size: .8rem; color: var(--tinta-suave); }
 

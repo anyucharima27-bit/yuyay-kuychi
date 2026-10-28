@@ -1,6 +1,6 @@
-// ✏️ PERSONALIZA: ruta del audio (opcional), p. ej. "assets/musica.mp3".
-// Déjala vacía si no hay música: así el botón no aparece y no se pide un archivo inexistente.
-const RUTA_MUSICA = "";
+// ✏️ PERSONALIZA: canción de YouTube. Es lo que va después de "watch?v=" en el enlace.
+// Si la cambias, cambia también el nombre y el artista en index.html (id="cancion" e id="artista").
+const VIDEO_YOUTUBE = "h_qaIfL9-UU";
 
 const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (id) => document.getElementById(id);
@@ -40,7 +40,8 @@ $("btnSorpresa").addEventListener("click", () => {
   boton.disabled = true;
   boton.textContent = "Con cariño ♥";
   boton.setAttribute("aria-expanded", "true");
-  $("sorpresa").scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "center" });
+  $("sorpresa").scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "start" });
+  sonarCancion();
 
   if (reducirMovimiento) return;
   const colores = ["#e3b5c0", "#c9b8e3", "#b8d0e6", "#a9c2a4"];
@@ -60,23 +61,86 @@ $("btnSorpresa").addEventListener("click", () => {
   }
 });
 
-/* 4. Música opcional: el botón aparece solo si el audio existe */
-const audio = new Audio();
-audio.loop = true;
-audio.preload = "metadata";
-audio.addEventListener("loadedmetadata", () => { $("btnMusica").hidden = false; });
-if (RUTA_MUSICA) audio.src = RUTA_MUSICA;
+/* 4. Canción favorita con reproductor propio (ondas + barra de tiempo) */
+let player = null;
+let listo = false;
+let quiereSonar = false;   // se tocó "sorpresa" antes de que YouTube terminara de cargar
+let reloj = null;
 
-$("btnMusica").addEventListener("click", () => {
-  const boton = $("btnMusica");
-  if (audio.paused) {
-    audio.play().then(() => {
-      boton.textContent = "❚❚ Pausar música";
-      boton.setAttribute("aria-pressed", "true");
-    }).catch(() => {});   // si el navegador la bloquea, no pasa nada
-  } else {
-    audio.pause();
-    boton.textContent = "♪ Reproducir música";
-    boton.setAttribute("aria-pressed", "false");
-  }
+const minutos = (s) => {
+  s = Math.max(0, Math.floor(s || 0));
+  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+};
+
+function pintarBarra(actual, total) {
+  const pct = total ? (actual / total) * 100 : 0;
+  $("barra").value = pct;
+  $("barra").style.setProperty("--p", pct + "%");
+  $("tActual").textContent = minutos(actual);
+  if (total) $("tTotal").textContent = minutos(total);
+}
+
+function actualizar() {
+  if (!listo) return;
+  pintarBarra(player.getCurrentTime(), player.getDuration());
+}
+
+function sonarCancion() {
+  if (listo) player.playVideo();
+  else quiereSonar = true;
+}
+
+function avisar(texto) {
+  $("avisoMusica").textContent = texto;
+  $("avisoMusica").hidden = !texto;
+}
+
+// Carga la API de YouTube al abrir la página, para que esté lista cuando toquen la sorpresa
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player("yt", {
+    videoId: VIDEO_YOUTUBE,
+    playerVars: { playsinline: 1, rel: 0, controls: 0, modestbranding: 1, disablekb: 1 },
+    events: {
+      onReady: () => {
+        listo = true;
+        $("btnPlay").disabled = false;
+        $("barra").disabled = false;
+        actualizar();
+        if (quiereSonar) player.playVideo();
+      },
+      onStateChange: (e) => {
+        const sonando = e.data === YT.PlayerState.PLAYING;
+        $("reproductor").classList.toggle("sonando", sonando);
+        $("btnPlay").setAttribute("aria-label", sonando ? "Pausar" : "Reproducir");
+        clearInterval(reloj);
+        if (sonando) {
+          avisar("");
+          reloj = setInterval(actualizar, 250);
+        }
+        if (e.data === YT.PlayerState.ENDED) { player.seekTo(0); player.playVideo(); }  // repetir
+        actualizar();
+      },
+      onError: () => {
+        avisar("No se pudo cargar la canción aquí. Puedes escucharla en YouTube.");
+      }
+    }
+  });
+};
+const api = document.createElement("script");
+api.src = "https://www.youtube.com/iframe_api";
+api.onerror = () => avisar("No se pudo conectar con YouTube. Revisa tu conexión a internet.");
+document.head.appendChild(api);
+
+$("btnPlay").addEventListener("click", () => {
+  if (!listo) return;
+  if (player.getPlayerState() === YT.PlayerState.PLAYING) player.pauseVideo();
+  else player.playVideo();
+});
+
+$("barra").addEventListener("input", () => {
+  if (!listo) return;
+  const total = player.getDuration();
+  const destino = ($("barra").value / 100) * total;
+  pintarBarra(destino, total);
+  player.seekTo(destino, true);
 });
